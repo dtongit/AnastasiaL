@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 import { PROJECTS } from '@/data/projects';
+import { getImagePath } from '@/utils/image';
 import ContactForm from '@/components/ContactForm';
 
 type PageProps = {
@@ -50,7 +51,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden shadow-sm bg-sand/20">
           <Image
-            src={project.coverImage}
+            src={getImagePath(project.coverImage)}
             alt={project.title}
             fill
             priority
@@ -187,7 +188,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {project.gallery.map((imgUrl, i) => (
               <div key={i} className="relative aspect-[16/10] rounded-xl overflow-hidden bg-sand/20 shadow-sm">
                 <Image
-                  src={imgUrl}
+                  src={getImagePath(imgUrl)}
                   alt={`${project.title} - фото ${i + 1}`}
                   fill
                   className="object-cover"

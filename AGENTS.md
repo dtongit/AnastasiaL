@@ -38,16 +38,17 @@ This document provides a comprehensive technical overview, design specifications
 ├── tailwind.config.ts         # Tailwind design tokens & font definitions
 ├── postcss.config.js          # PostCSS plugin settings
 ├── public/                    # Static assets & photography
-│   └── images/                # High-res photography & sketch blueprints
-│       ├── hero_garden_main.jpg
-│       ├── anastasia_bureau.jpg
-│       ├── project_sosny.jpg
-│       ├── project_lug.jpg
-│       ├── project_patio.jpg
-│       ├── project_water.jpg
-│       ├── sketch_blueprint.jpg
-│       ├── garden_return_bg.jpg
-│       └── certificate_gift.jpg
+│   └── images/                # High-res photography & sketch blueprints (all in .webp)
+│       ├── hero_garden_main.webp
+│       ├── modern_landscape_realistic.webp
+│       ├── anastasia_bureau.webp
+│       ├── certificate_mesto_sily_v2.webp
+│       ├── garden_return_bg.webp
+│       ├── cv_1_toskana.webp
+│       ├── cv_2_retrit.webp
+│       ├── cv_3_ekspress_plant.webp
+│       ├── cv_4_shaman.webp
+│       └── sketch_blueprint.webp
 └── src/
     ├── app/                   # Next.js App Router routes
     │   ├── layout.tsx         # Global Root Layout (Fonts, Header, Footer)

@@ -12,6 +12,7 @@ import {
   Gift,
 } from 'lucide-react';
 import { SERVICES } from '@/data/services';
+import { getImagePath } from '@/utils/image';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactForm from '@/components/ContactForm';
 
@@ -25,7 +26,7 @@ export default function HomePage() {
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <Image
-            src="/images/hero_garden_main.jpg"
+            src={getImagePath('/images/hero_garden_main.webp')}
             alt="Атмосферный малоуходный сад"
             fill
             priority
@@ -129,7 +130,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="relative aspect-[21/9] rounded-2xl overflow-hidden bg-sand/20 shadow-sm">
             <Image
-              src="/images/modern_landscape_realistic.jpg"
+              src={getImagePath('/images/modern_landscape_realistic.webp')}
               alt="Процесс проектирования сада — метод и природные решения"
               fill
               className="object-cover"
@@ -437,7 +438,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-[#FAF8F5] p-8 sm:p-16 rounded-2xl border border-sand/40">
             <div className="lg:col-span-5 relative aspect-[649/697] w-full max-w-md mx-auto rounded-xl overflow-hidden shadow-sm bg-sand/10">
               <Image
-                src="/images/anastasia_bureau.jpg"
+                src={getImagePath('/images/anastasia_bureau.webp')}
                 alt="Анастасия Лацинник — ландшафтный архитектор"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
@@ -485,7 +486,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="relative aspect-[21/9] rounded-2xl overflow-hidden bg-sand/20 shadow-sm">
             <Image
-              src="/images/certificate_mesto_sily_v2.jpg"
+              src={getImagePath('/images/certificate_mesto_sily_v2.webp')}
               alt="Подарочный сертификат Место силы"
               fill
               className="object-cover"
@@ -613,7 +614,7 @@ export default function HomePage() {
       <section className="relative min-h-[55vh] sm:min-h-[70vh] lg:min-h-[75vh] flex items-center justify-center text-center overflow-hidden w-full">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <Image
-            src="/images/garden_return_bg.jpg"
+            src={getImagePath('/images/garden_return_bg.webp')}
             alt="Сад, в который хочется возвращаться — пример ландшафтного дизайна"
             fill
             className="object-cover object-center brightness-[0.85] transition-transform duration-700"

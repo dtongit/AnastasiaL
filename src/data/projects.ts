@@ -9,11 +9,11 @@ export const PROJECTS: Project[] = [
     area: 'Площадь в согласовании',
     year: '2025–2026',
     status: 'completed',
-    coverImage: '/images/cv_1_toskana.png',
+    coverImage: '/images/cv_1_toskana.webp',
     gallery: [
-      '/images/cv_1_toskana.png',
-      '/images/sketch_blueprint.jpg',
-      '/images/hero_garden_main.jpg'
+      '/images/cv_1_toskana.webp',
+      '/images/sketch_blueprint.webp',
+      '/images/hero_garden_main.webp'
     ],
     task: 'Сформировать атмосферу средиземноморской виллы с открытыми террасами, устойчивыми к климату аналогами южных растений и фактурным мощением из тёплого камня.',
     idea: 'Использование засухоустойчивых трав, шалфеев, котовников, злаков и стриженых форм в сочетании с натуральным песчаником и терракотой. Природная пластика и свет.',
@@ -49,11 +49,11 @@ export const PROJECTS: Project[] = [
     area: 'Площадь в согласовании',
     year: '2025–2026',
     status: 'in-progress',
-    coverImage: '/images/cv_2_retrit.png',
+    coverImage: '/images/cv_2_retrit.webp',
     gallery: [
-      '/images/cv_2_retrit.png',
-      '/images/sketch_blueprint.jpg',
-      '/images/garden_return_bg.jpg'
+      '/images/cv_2_retrit.webp',
+      '/images/sketch_blueprint.webp',
+      '/images/garden_return_bg.webp'
     ],
     task: 'Создать умиротворяющую природную среду для ретритного комплекса: площадки для групповых практик на открытом воздухе, маршруты для прогулок и уединённые зоны отдыха.',
     idea: 'Минималистичные деревянные настилы, мягкие волны злаковых массивов, медитативные пошаговые дорожки и естественные водные акценты, растворяющие границы между человеком и природой.',
@@ -89,11 +89,11 @@ export const PROJECTS: Project[] = [
     area: 'Площадь в согласовании',
     year: '2025',
     status: 'completed',
-    coverImage: '/images/cv_3_ekspress_plant.png',
+    coverImage: '/images/cv_3_ekspress_plant.webp',
     gallery: [
-      '/images/cv_3_ekspress_plant.png',
-      '/images/sketch_blueprint.jpg',
-      '/images/hero_garden_main.jpg'
+      '/images/cv_3_ekspress_plant.webp',
+      '/images/sketch_blueprint.webp',
+      '/images/hero_garden_main.webp'
     ],
     task: 'Оперативная разработка и посадка объёмных природных цветников и акцентных растительных композиций без масштабных земляных и строительных работ.',
     idea: 'Плотная матричная посадка крупномерных многолетников и структурных трав, создающая законченный декоративный эффект уже в первый сезон.',
@@ -128,11 +128,11 @@ export const PROJECTS: Project[] = [
     area: 'Площадь в согласовании',
     year: '2026',
     status: 'documentation',
-    coverImage: '/images/cv_4_shaman.png',
+    coverImage: '/images/cv_4_shaman.webp',
     gallery: [
-      '/images/cv_4_shaman.png',
-      '/images/sketch_blueprint.jpg',
-      '/images/garden_return_bg.jpg'
+      '/images/cv_4_shaman.webp',
+      '/images/sketch_blueprint.webp',
+      '/images/garden_return_bg.webp'
     ],
     task: 'Спроектировать глубоко индивидуальное пространство вокруг костровой зоны с использованием дикоросов, фактурных валунов, хвойных акцентов и пряных трав.',
     idea: 'Архетипические образы северной природы, очаг в окружении мхов, вересков, полыней и можжевельников. Сад как место внутренней тишины и восстановления сил.',
@@ -161,3 +161,4 @@ export const PROJECTS: Project[] = [
     featured: true
   }
 ];
+

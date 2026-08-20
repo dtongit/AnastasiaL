@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@/types';
+import { getImagePath } from '@/utils/image';
 
 interface ProjectCardProps {
   project: Project;
@@ -18,7 +19,7 @@ export default function ProjectCard({ project, aspectRatio = 'wide' }: ProjectCa
     <Link href={`/projects/${project.slug}`} className="group block space-y-4">
       <div className={`relative overflow-hidden rounded-xl bg-sand/20 ${aspectClasses[aspectRatio]}`}>
         <Image
-          src={project.coverImage}
+          src={getImagePath(project.coverImage)}
           alt={project.title}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"

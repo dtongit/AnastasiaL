@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: 'Место силы',
     images: [
       {
-        url: '/images/hero_garden_main.jpg',
+        url: '/images/hero_garden_main.webp',
         width: 1200,
         height: 630,
         alt: 'Ландшафтное бюро Место силы',
