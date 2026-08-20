@@ -32,8 +32,8 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#F3F0E8]/90 backdrop-blur-md py-4 shadow-sm border-b border-graphite/10'
+        isScrolled || mobileMenuOpen
+          ? 'bg-milk/95 backdrop-blur-md py-4 shadow-sm border-b border-graphite/10'
           : 'bg-transparent py-6'
       }`}
     >
@@ -90,7 +90,7 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[70px] bg-[#F3F0E8] z-40 px-6 py-8 flex flex-col justify-between border-t border-graphite/10 animate-fadeIn">
+        <div className="md:hidden fixed inset-x-0 top-full bottom-0 h-[calc(100dvh-100%)] bg-milk border-t border-graphite/10 z-50 px-6 py-8 flex flex-col justify-between overflow-y-auto shadow-2xl">
           <div className="space-y-6">
             <p className="text-xs text-graphite/50 mb-4 font-sans font-medium">Навигация</p>
             {navLinks.map((link) => (
