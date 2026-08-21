@@ -5,19 +5,22 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
-import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, UserPlus, CheckCircle2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setSuccessMsg(null);
 
     const isConnected = isSupabaseConfigured();
 
@@ -31,21 +34,44 @@ export default function AdminLoginPage() {
 
     try {
       const supabase = createClient();
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
-      if (authError) {
-        setError(authError.message || 'Неверный email или пароль');
-        setIsLoading(false);
-        return;
-      }
+      if (mode === 'signup') {
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+        });
 
-      if (data.session) {
-        sessionStorage.setItem('admin_authenticated', 'true');
-        sessionStorage.setItem('admin_user_email', email);
-        router.push('/admin');
+        if (signUpError) {
+          setError(signUpError.message);
+          setIsLoading(false);
+          return;
+        }
+
+        if (data.session) {
+          sessionStorage.setItem('admin_authenticated', 'true');
+          sessionStorage.setItem('admin_user_email', email);
+          router.push('/admin');
+        } else {
+          setSuccessMsg('Администратор создан! Если требуется подтверждение по email, проверьте почту, либо переключитесь на «Вход».');
+          setIsLoading(false);
+        }
+      } else {
+        const { data, error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (authError) {
+          setError(authError.message || 'Неверный email или пароль');
+          setIsLoading(false);
+          return;
+        }
+
+        if (data.session) {
+          sessionStorage.setItem('admin_authenticated', 'true');
+          sessionStorage.setItem('admin_user_email', email);
+          router.push('/admin');
+        }
       }
     } catch (err: any) {
       setError(err.message || 'Ошибка авторизации');
@@ -79,9 +105,52 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className="bg-white rounded-3xl border border-sand/50 p-8 sm:p-10 shadow-xl space-y-6">
+          {/* Mode Switch Tabs */}
+          <div className="flex rounded-2xl bg-milk-light p-1 border border-sand/40">
+            <button
+              type="button"
+              onClick={() => {
+                setMode('signin');
+                setError(null);
+                setSuccessMsg(null);
+              }}
+              className={`flex-1 py-2 rounded-xl text-xs font-sans font-medium transition-all ${
+                mode === 'signin'
+                  ? 'bg-graphite text-milk shadow-xs'
+                  : 'text-graphite/60 hover:text-graphite'
+              }`}
+            >
+              Вход
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode('signup');
+                setError(null);
+                setSuccessMsg(null);
+              }}
+              className={`flex-1 py-2 rounded-xl text-xs font-sans font-medium transition-all ${
+                mode === 'signup'
+                  ? 'bg-graphite text-milk shadow-xs'
+                  : 'text-graphite/60 hover:text-graphite'
+              }`}
+            >
+              Создать админа
+            </button>
+          </div>
+
           <div className="flex items-center gap-2 pb-2 border-b border-sand/30">
-            <ShieldCheck className="w-4 h-4 text-olive" />
-            <span className="text-xs font-sans font-medium text-graphite">Вход для администратора</span>
+            {mode === 'signin' ? (
+              <>
+                <ShieldCheck className="w-4 h-4 text-olive" />
+                <span className="text-xs font-sans font-medium text-graphite">Вход для администратора</span>
+              </>
+            ) : (
+              <>
+                <UserPlus className="w-4 h-4 text-olive" />
+                <span className="text-xs font-sans font-medium text-graphite">Регистрация первого администратора</span>
+              </>
+            )}
           </div>
 
           {error && (
@@ -91,7 +160,14 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          {successMsg && (
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-sans flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{successMsg}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-graphite/80 font-sans">
                 Электронная почта
@@ -111,13 +187,14 @@ export default function AdminLoginPage() {
 
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-graphite/80 font-sans">
-                Пароль
+                Пароль {mode === 'signup' && <span className="text-graphite/40">(минимум 6 символов)</span>}
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-graphite/40 absolute left-3.5 top-3.5" />
                 <input
                   type="password"
                   required
+                  minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
@@ -131,17 +208,21 @@ export default function AdminLoginPage() {
               disabled={isLoading}
               className="w-full py-3.5 rounded-full bg-graphite text-milk text-xs font-sans font-medium hover:bg-olive transition-all flex items-center justify-center gap-2 shadow-sm mt-4 disabled:opacity-50"
             >
-              <span>{isLoading ? 'Проверка...' : 'Войти в панель'}</span>
+              <span>
+                {isLoading
+                  ? 'Обработка...'
+                  : mode === 'signup'
+                  ? 'Зарегистрировать админа'
+                  : 'Войти в панель'}
+              </span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          {!isSupabaseConfigured() && (
-            <div className="p-3.5 rounded-2xl bg-sand/20 border border-sand/30 text-[11px] text-graphite/70 font-sans leading-relaxed">
-              <span className="font-semibold text-graphite block mb-0.5">Режим разработчика:</span>
-              Переменные Supabase еще не заданы в .env.local — вы можете войти с любым email и паролем для тестирования интерфейса админки.
-            </div>
-          )}
+          <div className="p-3.5 rounded-2xl bg-sand/20 border border-sand/30 text-[11px] text-graphite/70 font-sans leading-relaxed">
+            <span className="font-semibold text-graphite block mb-0.5">Подсказка:</span>
+            Вы также можете создать пользователя напрямую в панели управления Supabase в разделе <strong>Authentication → Users → Add user</strong>.
+          </div>
         </div>
 
         <div className="text-center">
