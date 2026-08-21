@@ -1,13 +1,13 @@
 # AGENTS.md — Technical Handbook for AI Agents & Developers
 
-Welcome to the codebase for **«Место силы»** (Anastasia Latsinnik's Landscape Bureau).
+Welcome to the codebase for **Ландшафтное бюро Анастасии Лацинник** (Anastasia Latsinnik's Landscape Bureau).
 This document provides a comprehensive technical overview, design specifications, architectural guidelines, Supabase CMS setup, and operating rules for AI agents and developers working on this project.
 
 ---
 
 ## 1. Project Overview & Positioning
 
-- **Brand Name:** «Место силы» — ландшафтное бюро Анастасии Лацинник
+- **Brand Name:** Ландшафтное бюро Анастасии Лацинник
 - **Primary Specialization:** Low-maintenance naturalistic gardens for private and public spaces (*Малоуходные сады для частных и общественных территорий*)
 - **Core Formula:** *«Сад, в который хочется возвращаться»*
 - **Key Positioning:** *«Мы создаём малоуходные сады, в которых природа, архитектура и повседневная жизнь складываются в одно цельное пространство»*

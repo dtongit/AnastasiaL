@@ -514,7 +514,7 @@ export default function HomePage() {
           <div className="relative aspect-[21/9] rounded-2xl overflow-hidden bg-sand/20 shadow-sm">
             <Image
               src={getImagePath(certificates.image || '/images/certificate_mesto_sily_v2.webp')}
-              alt="Подарочный сертификат Место силы"
+              alt="Подарочный сертификат на проект сада"
               fill
               className="object-cover"
             />

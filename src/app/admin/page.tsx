@@ -111,14 +111,14 @@ export default function AdminDashboardPage() {
               <div className="relative w-9 h-9 sm:w-10 sm:h-10">
                 <Image
                   src={getImagePath('/images/logo_03_blueprint.webp')}
-                  alt="Место силы"
+                  alt="Ландшафтное бюро"
                   fill
                   className="object-contain"
                 />
               </div>
               <div>
                 <span className="font-serif text-lg font-medium text-graphite block leading-none">
-                  Место силы
+                  Ландшафтное бюро
                 </span>
                 <span className="text-[10px] text-olive font-sans font-medium uppercase tracking-wider">
                   Admin Panel

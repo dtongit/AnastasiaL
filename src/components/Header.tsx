@@ -47,12 +47,12 @@ export default function Header() {
         {/* Brand Logo */}
         <Link 
           href="/" 
-          aria-label="Главная страница — Место силы"
+          aria-label="Главная страница — Ландшафтное бюро Анастасии Лацинник"
           className="group relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 hover:scale-105"
         >
           <Image
             src={getImagePath('/images/logo_03_blueprint.webp')}
-            alt="Место силы логотип"
+            alt="Ландшафтное бюро логотип"
             fill
             className="object-contain"
             priority

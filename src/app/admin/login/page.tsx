@@ -6,73 +6,47 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getImagePath } from '@/utils/image';
-import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, UserPlus, CheckCircle2 } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    setSuccessMsg(null);
 
     const isConnected = isSupabaseConfigured();
 
     if (!isConnected) {
       // In local mode without live Supabase credentials, allow demo access
       sessionStorage.setItem('admin_authenticated', 'true');
-      sessionStorage.setItem('admin_user_email', email || 'admin@mesto-sily.ru');
+      sessionStorage.setItem('admin_user_email', email || 'admin@nastasia-land.ru');
       router.push('/admin');
       return;
     }
 
     try {
       const supabase = createClient();
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (mode === 'signup') {
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
+      if (authError) {
+        setError(authError.message || 'Неверный email или пароль');
+        setIsLoading(false);
+        return;
+      }
 
-        if (signUpError) {
-          setError(signUpError.message);
-          setIsLoading(false);
-          return;
-        }
-
-        if (data.session) {
-          sessionStorage.setItem('admin_authenticated', 'true');
-          sessionStorage.setItem('admin_user_email', email);
-          router.push('/admin');
-        } else {
-          setSuccessMsg('Администратор создан! Если требуется подтверждение по email, проверьте почту, либо переключитесь на «Вход».');
-          setIsLoading(false);
-        }
-      } else {
-        const { data, error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (authError) {
-          setError(authError.message || 'Неверный email или пароль');
-          setIsLoading(false);
-          return;
-        }
-
-        if (data.session) {
-          sessionStorage.setItem('admin_authenticated', 'true');
-          sessionStorage.setItem('admin_user_email', email);
-          router.push('/admin');
-        }
+      if (data.session) {
+        sessionStorage.setItem('admin_authenticated', 'true');
+        sessionStorage.setItem('admin_user_email', email);
+        router.push('/admin');
       }
     } catch (err: any) {
       setError(err.message || 'Ошибка авторизации');
@@ -88,7 +62,7 @@ export default function AdminLoginPage() {
           <Link href="/" className="inline-block relative w-16 h-16 mx-auto">
             <Image
               src={getImagePath('/images/logo_03_blueprint.webp')}
-              alt="Место силы"
+              alt="Ландшафтное бюро Анастасии Лацинник"
               fill
               className="object-contain"
               priority
@@ -99,72 +73,22 @@ export default function AdminLoginPage() {
               Панель управления
             </h1>
             <p className="text-xs sm:text-sm text-graphite/60 font-sans mt-1">
-              «Место силы» — бюро Анастасии Лацинник
+              Ландшафтное бюро Анастасии Лацинник
             </p>
           </div>
         </div>
 
         {/* Login Card */}
         <div className="bg-white rounded-3xl border border-sand/50 p-8 sm:p-10 shadow-xl space-y-6">
-          {/* Mode Switch Tabs */}
-          <div className="flex rounded-2xl bg-milk-light p-1 border border-sand/40">
-            <button
-              type="button"
-              onClick={() => {
-                setMode('signin');
-                setError(null);
-                setSuccessMsg(null);
-              }}
-              className={`flex-1 py-2 rounded-xl text-xs font-sans font-medium transition-all ${
-                mode === 'signin'
-                  ? 'bg-graphite text-milk shadow-xs'
-                  : 'text-graphite/60 hover:text-graphite'
-              }`}
-            >
-              Вход
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMode('signup');
-                setError(null);
-                setSuccessMsg(null);
-              }}
-              className={`flex-1 py-2 rounded-xl text-xs font-sans font-medium transition-all ${
-                mode === 'signup'
-                  ? 'bg-graphite text-milk shadow-xs'
-                  : 'text-graphite/60 hover:text-graphite'
-              }`}
-            >
-              Создать админа
-            </button>
-          </div>
-
           <div className="flex items-center gap-2 pb-2 border-b border-sand/30">
-            {mode === 'signin' ? (
-              <>
-                <ShieldCheck className="w-4 h-4 text-olive" />
-                <span className="text-xs font-sans font-medium text-graphite">Вход для администратора</span>
-              </>
-            ) : (
-              <>
-                <UserPlus className="w-4 h-4 text-olive" />
-                <span className="text-xs font-sans font-medium text-graphite">Регистрация первого администратора</span>
-              </>
-            )}
+            <ShieldCheck className="w-4 h-4 text-olive" />
+            <span className="text-xs font-sans font-medium text-graphite">Вход для администратора</span>
           </div>
 
           {error && (
             <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs font-sans flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
               <span>{error}</span>
-            </div>
-          )}
-
-          {successMsg && (
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-sans flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>{successMsg}</span>
             </div>
           )}
 
@@ -180,7 +104,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@mesto-sily.ru"
+                  placeholder="admin@example.com"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-sand/60 font-sans text-xs focus:outline-none focus:border-olive text-graphite"
                 />
               </div>
@@ -188,7 +112,7 @@ export default function AdminLoginPage() {
 
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-graphite/80 font-sans">
-                Пароль {mode === 'signup' && <span className="text-graphite/40">(минимум 6 символов)</span>}
+                Пароль
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-graphite/40 absolute left-3.5 top-3.5" />
@@ -210,11 +134,7 @@ export default function AdminLoginPage() {
               className="w-full py-3.5 rounded-full bg-graphite text-milk text-xs font-sans font-medium hover:bg-olive transition-all flex items-center justify-center gap-2 shadow-sm mt-4 disabled:opacity-50"
             >
               <span>
-                {isLoading
-                  ? 'Обработка...'
-                  : mode === 'signup'
-                  ? 'Зарегистрировать админа'
-                  : 'Войти в панель'}
+                {isLoading ? 'Вход...' : 'Войти в панель'}
               </span>
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -222,7 +142,7 @@ export default function AdminLoginPage() {
 
           <div className="p-3.5 rounded-2xl bg-sand/20 border border-sand/30 text-[11px] text-graphite/70 font-sans leading-relaxed">
             <span className="font-semibold text-graphite block mb-0.5">Подсказка:</span>
-            Вы также можете создать пользователя напрямую в панели управления Supabase в разделе <strong>Authentication → Users → Add user</strong>.
+            Создать нового пользователя можно напрямую в панели управления Supabase в разделе <strong>Authentication → Users → Add user</strong>.
           </div>
         </div>
 

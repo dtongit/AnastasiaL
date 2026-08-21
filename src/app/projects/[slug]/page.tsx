@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!project) return { title: 'Проект не найден' };
 
   return {
-    title: `${project.title} — Проект бюро «Место силы»`,
+    title: `${project.title} — Ландшафтное бюро Анастасии Лацинник`,
     description: project.subtitle || project.description,
   };
 }
