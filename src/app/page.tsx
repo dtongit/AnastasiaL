@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -17,6 +20,9 @@ import {
 } from 'lucide-react';
 import { getLandingContent, getProjects } from '@/lib/supabase/queries';
 import { getImagePath } from '@/utils/image';
+import { DEFAULT_LANDING_CONTENT } from '@/data/landingDefaults';
+import { PROJECTS as STATIC_PROJECTS } from '@/data/projects';
+import { LandingContent, Project } from '@/types';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactForm from '@/components/ContactForm';
 
@@ -55,9 +61,26 @@ function renderServiceIcon(iconName: string) {
   }
 }
 
-export default async function HomePage() {
-  const content = await getLandingContent();
-  const projects = await getProjects();
+export default function HomePage() {
+  const [content, setContent] = useState<LandingContent>(DEFAULT_LANDING_CONTENT);
+  const [projects, setProjects] = useState<Project[]>(STATIC_PROJECTS);
+
+  useEffect(() => {
+    async function loadLiveData() {
+      try {
+        const [liveContent, liveProjects] = await Promise.all([
+          getLandingContent(),
+          getProjects(),
+        ]);
+        if (liveContent) setContent(liveContent);
+        if (liveProjects && liveProjects.length > 0) setProjects(liveProjects);
+      } catch (err) {
+        console.warn('Could not load live Supabase data on client:', err);
+      }
+    }
+
+    loadLiveData();
+  }, []);
 
   const { hero, manifesto, approach, services, bureau, certificates, finalBanner, contacts } =
     content;
