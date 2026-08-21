@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getLandingContent, getProjects } from '@/lib/supabase/queries';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getImagePath } from '@/utils/image';
 import { LandingContent, Project } from '@/types';
 import { DEFAULT_LANDING_CONTENT } from '@/data/landingDefaults';
 import { PROJECTS as STATIC_PROJECTS } from '@/data/projects';
@@ -109,7 +110,7 @@ export default function AdminDashboardPage() {
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-9 h-9 sm:w-10 sm:h-10">
                 <Image
-                  src="/images/logo_03_blueprint.webp"
+                  src={getImagePath('/images/logo_03_blueprint.webp')}
                   alt="Место силы"
                   fill
                   className="object-contain"

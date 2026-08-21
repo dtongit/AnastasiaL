@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { getImagePath } from '@/utils/image';
 import { Menu, X } from 'lucide-react';
 
 export default function Header() {
@@ -50,7 +51,7 @@ export default function Header() {
           className="group relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 hover:scale-105"
         >
           <Image
-            src="/images/logo_03_blueprint.webp"
+            src={getImagePath('/images/logo_03_blueprint.webp')}
             alt="Место силы логотип"
             fill
             className="object-contain"

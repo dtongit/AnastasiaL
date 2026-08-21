@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getImagePath } from '@/utils/image';
 import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, UserPlus, CheckCircle2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -86,7 +87,7 @@ export default function AdminLoginPage() {
         <div className="text-center space-y-3">
           <Link href="/" className="inline-block relative w-16 h-16 mx-auto">
             <Image
-              src="/images/logo_03_blueprint.webp"
+              src={getImagePath('/images/logo_03_blueprint.webp')}
               alt="Место силы"
               fill
               className="object-contain"
