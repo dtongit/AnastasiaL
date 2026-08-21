@@ -1,0 +1,19 @@
+<svg viewBox="-80 -80 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <!-- Внешний пунктирный контур генплана -->
+    <circle cx="0" cy="0" r="62" fill="none" stroke="#D9CDBF" stroke-width="1.8" stroke-dasharray="4,4"/>
+    
+    <!-- Архитектурная геометрия буквы А -->
+    <polygon points="0,-60 -48,50 -28,50 -5,0 5,0 28,50 48,50" fill="none" stroke="#2C332D" stroke-width="3.2" stroke-linejoin="round"/>
+    
+    <!-- Ось буквы Л -->
+    <path d="M 0,-60 L 52,50" stroke="#55694C" stroke-width="3.8" stroke-linecap="round"/>
+    
+    <!-- Круговой солитер / водоем в центре -->
+    <circle cx="0" cy="-8" r="11" fill="#55694C" opacity="0.85"/>
+    <circle cx="0" cy="-8" r="4" fill="#FAF8F5"/>
+    
+    <!-- Террасированная линия дорожки -->
+    <line x1="-38" y1="15" x2="38" y2="15" stroke="#9E6E38" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>

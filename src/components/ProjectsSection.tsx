@@ -1,7 +1,14 @@
-import { PROJECTS } from '@/data/projects';
+import { Project } from '@/types';
+import { PROJECTS as DEFAULT_PROJECTS } from '@/data/projects';
 import ProjectCard from '@/components/ProjectCard';
 
-export default function ProjectsSection() {
+interface ProjectsSectionProps {
+  projects?: Project[];
+}
+
+export default function ProjectsSection({ projects = DEFAULT_PROJECTS }: ProjectsSectionProps) {
+  const displayProjects = projects && projects.length > 0 ? projects : DEFAULT_PROJECTS;
+
   return (
     <section id="projects" className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-10 scroll-mt-24">
       {/* Header Row */}
@@ -19,7 +26,7 @@ export default function ProjectsSection() {
 
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-        {PROJECTS.map((project, idx) => (
+        {displayProjects.map((project, idx) => (
           <ProjectCard
             key={project.slug}
             project={project}

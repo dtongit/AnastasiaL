@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import MainWrapper from '@/components/MainWrapper';
 
 const serifFont = Cormorant_Garamond({
   subsets: ['cyrillic', 'latin'],
@@ -63,7 +64,7 @@ export default function RootLayout({
     <html lang="ru" className={`${serifFont.variable} ${sansFont.variable}`}>
       <body className="font-sans bg-milk text-graphite flex flex-col min-h-screen">
         <Header />
-        <main className="flex-grow pt-20">{children}</main>
+        <MainWrapper>{children}</MainWrapper>
         <Footer />
       </body>
     </html>

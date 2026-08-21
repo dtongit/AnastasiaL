@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
-import { PROJECTS } from '@/data/projects';
+import { getProjectBySlug, getProjects } from '@/lib/supabase/queries';
+import { PROJECTS as STATIC_PROJECTS } from '@/data/projects';
 import { getImagePath } from '@/utils/image';
 import ContactForm from '@/components/ContactForm';
 
@@ -10,15 +11,16 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return PROJECTS.map((project) => ({
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return (projects && projects.length > 0 ? projects : STATIC_PROJECTS).map((project) => ({
     slug: project.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
   if (!project) return { title: 'Проект не найден' };
 
   return {
@@ -29,11 +31,15 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const projectIndex = PROJECTS.findIndex((p) => p.slug === slug);
-  if (projectIndex === -1) notFound();
+  const project = await getProjectBySlug(slug);
+  if (!project) notFound();
 
-  const project = PROJECTS[projectIndex];
-  const nextProject = PROJECTS[(projectIndex + 1) % PROJECTS.length];
+  const allProjects = await getProjects();
+  const projectIndex = allProjects.findIndex((p) => p.slug === slug);
+  const nextProject =
+    allProjects.length > 1
+      ? allProjects[(projectIndex + 1) % allProjects.length]
+      : project;
 
   return (
     <div className="space-y-16 pb-20">
@@ -200,20 +206,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       )}
 
       {/* Next Project Link */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8">
-        <div className="p-8 bg-[#FAF8F5] rounded-2xl border border-sand/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <span className="text-xs sm:text-sm text-graphite/50 font-sans font-medium">Следующий проект</span>
-            <h3 className="font-serif text-3xl text-graphite mt-1">{nextProject.title}</h3>
+      {nextProject && (
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-8">
+          <div className="p-8 bg-[#FAF8F5] rounded-2xl border border-sand/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div>
+              <span className="text-xs sm:text-sm text-graphite/50 font-sans font-medium">Следующий проект</span>
+              <h3 className="font-serif text-3xl text-graphite mt-1">{nextProject.title}</h3>
+            </div>
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="px-6 py-3 rounded-full bg-graphite text-milk text-xs sm:text-sm font-sans font-medium hover:bg-olive transition-colors inline-flex items-center"
+            >
+              <span>Смотреть проект</span>
+            </Link>
           </div>
-          <Link
-            href={`/projects/${nextProject.slug}`}
-            className="px-6 py-3 rounded-full bg-graphite text-milk text-xs sm:text-sm font-sans font-medium hover:bg-olive transition-colors inline-flex items-center"
-          >
-            <span>Смотреть проект</span>
-          </Link>
         </div>
-      </div>
+      )}
 
       {/* Contact CTA */}
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-12">

@@ -1,6 +1,7 @@
 export type ProjectStatus = "concept" | "documentation" | "in-progress" | "completed";
 
 export type Project = {
+  id?: string;
   slug: string;
   title: string;
   subtitle?: string;
@@ -19,7 +20,10 @@ export type Project = {
   scope?: string[];
   description?: string;
   featured: boolean;
+  display_order?: number;
 };
+
+export * from './content';
 
 export type Service = {
   slug: string;

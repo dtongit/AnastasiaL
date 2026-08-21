@@ -1,7 +1,15 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Phone, Mail, MessageSquare } from 'lucide-react';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
   return (
     <footer className="relative z-20 bg-graphite text-milk pt-20 pb-12 border-t border-graphite shadow-[0_0_20px_#222222]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -75,7 +83,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-milk/50 font-sans space-y-4 sm:space-y-0">
-          <p>© {new Date().getFullYear()} «Место силы» — Ландшафтное бюро Анастасии Лацинник.</p>
+          <p>© {new Date().getFullYear()} Ландшафтное бюро Анастасии Лацинник.</p>
           <div className="flex items-center space-x-6">
             <Link href="/privacy" className="hover:text-milk transition-colors">
               Политика конфиденциальности

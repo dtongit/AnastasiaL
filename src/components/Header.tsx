@@ -2,11 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 
 export default function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,22 +38,28 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen
-          ? 'bg-milk/95 backdrop-blur-md py-4 shadow-sm border-b border-graphite/10'
-          : 'bg-transparent py-6'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-milk/95 backdrop-blur-md shadow-sm border-b border-graphite/10 ${
+        isScrolled ? 'py-3' : 'py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="group inline-flex items-center">
-          <span className="font-serif text-2xl lg:text-3xl text-graphite tracking-tight font-medium group-hover:text-olive transition-colors leading-none">
-            Место Силы
-          </span>
+        <Link 
+          href="/" 
+          aria-label="Главная страница — Место силы"
+          className="group relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 hover:scale-105"
+        >
+          <Image
+            src="/images/logo_03_blueprint.webp"
+            alt="Место силы логотип"
+            fill
+            className="object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10 text-sm tracking-normal font-sans">
+        <nav className="hidden md:flex items-center gap-16 text-sm tracking-normal font-sans">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -64,7 +77,7 @@ export default function Header() {
             href="/#contact"
             className="inline-flex items-center justify-center px-5 py-2.5 rounded-full border border-graphite/30 text-graphite text-xs tracking-normal font-sans font-medium hover:bg-graphite hover:text-milk transition-all duration-200 leading-none"
           >
-            <span>Обсудить участок</span>
+            <span>Обсудить свой сад</span>
           </Link>
         </div>
 
@@ -111,7 +124,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full py-3.5 rounded-full bg-graphite text-milk text-center text-sm font-sans font-medium block"
             >
-              Обсудить свой участок
+              Обсудить свой сад
             </Link>
 
             <div className="text-xs text-graphite/60 space-y-1 pt-2 font-sans">

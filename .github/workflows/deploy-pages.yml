@@ -34,6 +34,9 @@ jobs:
         run: npm ci
 
       - name: Build static site
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://dqxulklqmljsolwnbqte.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxeHVsa2xxbWxqc29sd25icXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczMDIwOTEsImV4cCI6MjEwMjg3ODA5MX0.JJdP7X-Op7ixLx1nJOQ9qRvplF3gJBYNcNVWxX99RRY' }}
         run: npm run build
 
       - name: Upload artifact
